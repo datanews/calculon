@@ -1,6 +1,6 @@
 # Calculon
 
-Calculon is a Spark Core in the DataNews office that does some fun stuff.
+Calculon is an over-dramatic robot that lives in the Data News office.  Calculon is a Spark Core in the DataNews office that does some fun stuff.  Check out [NotoriousBOT Calculon integration]() to see how the world talks to Calculon.
 
 ## Software
 
@@ -23,13 +23,19 @@ This uses a string of NeoPixels to represent the Chartbeat API.
 
 Example update:
 
-    curl https://api.spark.io/v1/devices/<CORED_ID>/chartbeat
-      -d access_token=<ACCESS_TOKEN>
+    curl https://api.spark.io/v1/devices/<CORE_ID>/chartbeat \
+      -d access_token=<ACCESS_TOKEN> \
       -d params=<NUMBER_OF_USERS_FROM_CHARTBEAT>
 
 ### Ice cream party
 
 This uses a servo to spin an ice cream cone around when its ice cream time.
 
-    curl https://api.spark.io/v1/devices/<CORED_ID>/icecream
+Example update:
+
+    curl https://api.spark.io/v1/devices/<CORE_ID>/icecream \
       -d access_token=<ACCESS_TOKEN>
+
+### Camera rotator
+
+(coming soon)

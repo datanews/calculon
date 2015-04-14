@@ -1,5 +1,7 @@
-/* ======= includes ====== */
+// Main code for Calculon.  Mostly this just responds to
+// web hooks.
 
+// Includes
 #include "application.h"
 #include "neopixel/neopixel.h"
 //#include "spark_disable_wlan.h" (for faster local debugging only)
@@ -9,6 +11,8 @@
 #define PIXEL_COUNT 60
 #define PIXEL_PIN D2
 #define PIXEL_TYPE WS2812B
+#define ICE_PIN A0
+#define CAMERA_PIN A1
 
 
 // Create strip
@@ -27,7 +31,7 @@ void setup()
    Spark.function("icecream", icecreamTime);
 
    // attaches the servo on the A0 pin to the servo object
-   myservo.attach(A0);
+   myservo.attach(ICE_PIN);
 
    // Initialize all strip pixels to 'off'
   strip.begin();
@@ -44,7 +48,7 @@ void loop()
 
 
 // Web hook handler for ice cream
-int icecreamTime() {
+int icecreamTime(String command) {
   spinCone();
   return 1;
 }
