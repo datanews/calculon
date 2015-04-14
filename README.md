@@ -1,6 +1,6 @@
 # Calculon
 
-Calculon is an over-dramatic robot that lives in the Data News office.  Calculon is a Spark Core in the DataNews office that does some fun stuff.  Check out [NotoriousBOT Calculon integration]() to see how the world talks to Calculon.
+Calculon is an over-dramatic robot that lives in the Data News office.  Calculon is a Spark Core in the DataNews office that does some fun stuff.  Check out [NotoriousBOT Calculon integration](https://github.com/datanews/NotoriousBOT/blob/master/scripts/calculon.js) to see how the world (and Hubot) talks to Calculon.
 
 ## Software
 
