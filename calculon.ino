@@ -19,8 +19,13 @@
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
 
 // Servo setup (Servo library is built in to spark)
-int pos = 0;
-Servo myservo;
+Servo ice_servo;
+int ice_pos = 0;
+// Servo we are using is 0 to 160 degrees
+Servo camera_servo;
+int camera_pos = 80;
+int camera_pos_min = 0;
+int camera_pos_max = 150;
 
 
 // Main setup task
@@ -29,9 +34,13 @@ void setup()
    // Register our Spark functions here to respond to web hooks
    Spark.function("chartbeat", chartbeatUpdate);
    Spark.function("icecream", icecreamTime);
+   Spark.function("camera", cameraPivot);
 
-   // attaches the servo on the A0 pin to the servo object
-   myservo.attach(ICE_PIN);
+   // Attache servos to pins
+   ice_servo.attach(ICE_PIN);
+   ice_servo.write(ice_pos);
+   camera_servo.attach(CAMERA_PIN);
+   camera_servo.write(camera_pos);
 
    // Initialize all strip pixels to 'off'
   strip.begin();
@@ -49,29 +58,25 @@ void loop()
 
 // Web hook handler for ice cream
 int icecreamTime(String command) {
-  spinCone();
-  return 1;
-}
-
-// This function spins an ice cream cone on a servo
-void spinCone() {
+  // Spin the cone
   for (int i = 1; i <= 5; i++) {
     // goes from 0 degrees to 180 degrees
     // tell servo to go to position in variable 'pos'
     // waits 15ms for the servo to reach the position
-    for (pos = 0; pos < 180; pos += 10) {
-      myservo.write(pos);
+    for (ice_pos = 0; ice_pos < 180; ice_pos += 10) {
+      ice_servo.write(ice_pos);
       delay(15);
     }
 
     // goes from 180 degrees to 0 degrees
     // tell servo to go to position in variable 'pos'
     // waits 15ms for the servo to reach the position
-    for (pos = 180; pos>=1; pos-=10) {
-      myservo.write(pos);
+    for (ice_pos = 180; ice_pos >= 1; ice_pos -= 10) {
+      ice_servo.write(ice_pos);
       delay(15);
     }
   }
+  return 1;
 }
 
 
@@ -128,4 +133,38 @@ void stripColor(int red, int green, int blue) {
     strip.setPixelColor(i, c);
   }
   strip.show();
+}
+
+
+// Move camera
+int cameraPivot(String command) {
+  // turn the string into an integer
+  int p;
+  int move = command.toInt();
+  int orig_pos = camera_pos;
+  camera_pos = camera_pos + move;
+
+  // Limits
+  if (camera_pos < camera_pos_min) {
+    camera_pos = camera_pos_min;
+  }
+  if (camera_pos > camera_pos_max) {
+    camera_pos = camera_pos_max;
+  }
+
+  // Move slowly
+  if (camera_pos > orig_pos) {
+    for (p = orig_pos; p <= camera_pos; p += 1) {
+      camera_servo.write(p);
+      delay(10);
+    }
+  }
+  if (camera_pos < orig_pos) {
+    for (p = orig_pos; p >= camera_pos; p -= 1) {
+      camera_servo.write(p);
+      delay(10);
+    }
+  }
+
+  return camera_pos;
 }

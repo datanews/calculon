@@ -38,4 +38,8 @@ Example update:
 
 ### Camera rotator
 
-(coming soon)
+This takes in a number of degrees to move a servo.
+
+    curl https://api.spark.io/v1/devices/<CORE_ID>/camera \
+      -d access_token=<ACCESS_TOKEN> \
+      -d params=<DEGREES_TO_MOVE>
